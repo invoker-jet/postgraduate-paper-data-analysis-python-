@@ -1,0 +1,20 @@
+import pandas as pd
+from openpyxl import load_workbook
+
+originData = pd.read_excel('D:/GraduateResources/EssayDataAnalysis/201911-202008.xlsx',engine='openpyxl')
+destData = pd.read_excel('D:/GraduateResources/EssayDataAnalysis/4.xlsx',engine = 'openpyxl')
+for i in originData.index:
+    hour01 = pd.to_datetime(originData.at[i,'start'],errors='coerce')
+    j = i
+    for j in destData.index:
+        #s = str(destData.at[j,'start']).split(' ')[0] +' '+ str(int(da.at[j,'时'])) + ':00:00'
+        hour02 = pd.to_datetime(destData.at[j,'Time'])
+        #hour02 = hour02 + pd.Timedelta(hours = 8)
+        if hour01==hour02:
+            #if(hour01.hour == hour02.hour)and (hour01.day == hour02.day):
+            #originData.at[i,'24h海陆比'] = destData.at[j,'24h海陆比']
+            originData.at[i,'cluster'] = destData.at[j,'cluster']
+            break
+originData = originData[['start','Cl','NO3','SO4','Na','NH4','K','Mg','Ca','Clmeq','NO3meq','SO4meq','Nameq','NH4meq','Kmeq','Mgmeq','Cameq',
+             'NaMg','KCa','KCa/NaMg']]
+originData.to_excel('D:/GraduateResources/EssayDataAnalysis/加cluster4.xlsx',engine = 'openpyxl')
